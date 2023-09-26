@@ -1,6 +1,6 @@
 from playwright.sync_api import Page, expect
 from pytest_playwright.pytest_playwright import page
-from tests_ui_layout.constants import PAGE_TO_FILL, PAGE_TO_GO
+from tests_ui_layout.constants import *
 
 """
 This file contains the main table page, where you can navigate over existing users and add users
@@ -45,10 +45,10 @@ class Home_page:
         return False
 
     def verify_data_in_table(self) -> bool:
-        for index in range(1, 11):
+        for index in range(FIRST_PAGE, LAST_PAGE):
             self.go_to_page_in_table(str(index))
             for row in self.__table.all():
-                if len(self.__table.all()) != 10:
+                if len(self.__table.all()) != EXPECTED_ROWS_IN_TABLE:
                     return False
                 else:
                     id = row.locator(self.__id_col).inner_text()
@@ -72,13 +72,13 @@ class Home_page:
 
     def validate_user_in_page_tenth(self) -> bool:
         id_in_table = self.__table.all().pop().locator(self.__id_col).text_content()
-        if id_in_table == '100':
+        if id_in_table == LAST_ID:
             return True
         return False
 
     def validate_user_in_page_one_after_invalid_page(self) -> bool:
         id_in_table = self.__table.all().pop().locator(self.__id_col).text_content()
-        if id_in_table == '10':
+        if id_in_table == LAST_ID_ON_PAGE_ONE:
             return True
         return False
 
